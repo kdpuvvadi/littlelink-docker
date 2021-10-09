@@ -1,0 +1,12 @@
+---
+version: "3"
+
+services:
+  pihole:
+    container_name: littlelink
+    image: ghcr.io/kdpuvvadi/littlelink-docker:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - '~/littlelink/:/html/'
+    restart: unless-stopped
