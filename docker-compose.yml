@@ -8,5 +8,6 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - '~/littlelink/:/html/'
+      - '~/littlelink/html:/usr/share/nginx/html/'
+      - '~/littlelink/config:/etc/nginx/conf.d/'
     restart: unless-stopped
