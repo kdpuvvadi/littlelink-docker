@@ -2,7 +2,7 @@ name: Littlelink Docker
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main,dev ]
 
 jobs:
   build:
