@@ -33,6 +33,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -41,4 +46,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
           push: true
-          tags: ghcr.io/kdpuvvadi/littlelink-docker:${GITHUB_REF##*/}
+          tags: ghcr.io/kdpuvvadi/littlelink-docker:${{GITHUB_REF##*/}}
