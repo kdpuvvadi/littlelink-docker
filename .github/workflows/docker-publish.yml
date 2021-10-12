@@ -40,7 +40,7 @@ jobs:
         id: extract_branch
 
       - name: Build and push Docker image(latest)
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -50,7 +50,7 @@ jobs:
           tags: ghcr.io/kdpuvvadi/littlelink-docker:latest
 
       - name: Build and push Docker image
-        if: github.ref != 'refs/heads/master'
+        if: github.ref != 'refs/heads/main'
         uses: docker/build-push-action@v2
         with:
           context: .
