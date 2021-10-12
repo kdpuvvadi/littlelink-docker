@@ -2,7 +2,7 @@ name: Littlelink Docker
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main,dev ]
 
 jobs:
   build:
@@ -33,8 +33,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image(latest)
+        if: github.ref == 'refs/heads/master'
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -42,3 +48,13 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
           push: true
           tags: ghcr.io/kdpuvvadi/littlelink-docker:latest
+
+      - name: Build and push Docker image
+        if: github.ref != 'refs/heads/master'
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+          push: true
+          tags: ghcr.io/kdpuvvadi/littlelink-docker:${{ steps.extract_branch.outputs.branch }}
