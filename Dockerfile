@@ -3,8 +3,8 @@ FROM nginx:mainline-alpine
 ENV light "css/skeleton-light.css"
 ENV dark "css/skeleton-dark.css"
 
-RUN apk update && apk add git --no-cache
-RUN git clone https://github.com/sethcottle/littlelink.git /littlelink/
+RUN apk add git --no-cache \
+    && git clone https://github.com/sethcottle/littlelink.git /littlelink/
 
 WORKDIR /usr/share/nginx
 
